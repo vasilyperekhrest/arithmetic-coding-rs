@@ -1,17 +1,34 @@
 mod utils;
 mod coding;
 
+use std;
+
 use utils::counter;
 use coding::arithmetic;
+use std::io::Write;
 
 fn main() {
-    let str = "Hello world🍑";
-    println!("{} {}", str, str.len());
-    let char_counter = counter::char_counter(str);
-    println!("{:?}", char_counter);
-    let str_size: usize = char_counter.values().sum();
-    println!("{}", str_size);
-    let code = arithmetic::encode(&char_counter, str);
+    let args: Vec<String> = std::env::args().collect();
+    let mut text: String = String::new();
+
+    match args.len() {
+        1 => {
+            print!("Enter text: ");
+            std::io::stdout().flush().unwrap();
+            std::io::stdin().read_line(&mut text).unwrap();
+        },
+
+        2 => {
+            text = args[1].clone();
+        },
+
+        _ => {
+            text = "Hello world".to_string();
+        }
+    }
+    let char_counter = counter::char_counter(text.as_str());
+
+    let code = arithmetic::encode(&char_counter, text.as_str());
     println!("Encoded {}", code);
 
     let decoded = arithmetic::decode(&char_counter, &code);
