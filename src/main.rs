@@ -2,10 +2,11 @@ mod utils;
 mod coding;
 
 use std;
+use std::io::Write;
 
 use utils::counter;
 use coding::arithmetic;
-use std::io::Write;
+
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
